@@ -198,6 +198,13 @@ public class EventListener implements Listener {
 	public void onPlayerDeath(PlayerDeathEvent event) {
 		event.setKeepInventory(true);
 		event.getDrops().clear();
+		String deathmsg = event.getDeathMessage().replaceFirst(event.getEntity().getName(),
+				event.getEntity().getDisplayName() + "§r");
+		if (event.getEntity().getKiller() != null) {
+			deathmsg = deathmsg.replaceFirst(event.getEntity().getKiller().getName(),
+					event.getEntity().getKiller().getDisplayName() + "§r");
+		}
+		event.setDeathMessage(deathmsg);
 		// Autorespawn
 		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 			@Override

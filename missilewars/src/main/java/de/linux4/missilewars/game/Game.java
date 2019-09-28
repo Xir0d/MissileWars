@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -85,19 +86,19 @@ public class Game {
 		this.world = world;
 		board = Bukkit.getScoreboardManager().getNewScoreboard();
 		green = board.registerNewTeam("green");
-		green.setPrefix("§a");
+		green.setColor(ChatColor.GREEN);
 		green.setOption(Option.NAME_TAG_VISIBILITY, OptionStatus.ALWAYS);
 		green.setAllowFriendlyFire(false);
 		red = board.registerNewTeam("red");
-		red.setPrefix("§c");
+		red.setColor(ChatColor.RED);
 		red.setOption(Option.NAME_TAG_VISIBILITY, OptionStatus.ALWAYS);
 		red.setAllowFriendlyFire(false);
 		none = board.registerNewTeam("none");
-		none.setPrefix("§7");
+		none.setColor(ChatColor.GRAY);
 		none.setOption(Option.NAME_TAG_VISIBILITY, OptionStatus.ALWAYS);
 		none.setAllowFriendlyFire(false);
 		spec = board.registerNewTeam("spec");
-		spec.setPrefix("§8");
+		spec.setColor(ChatColor.DARK_GRAY);
 		spec.setOption(Option.NAME_TAG_VISIBILITY, OptionStatus.FOR_OWN_TEAM);
 		spec.setAllowFriendlyFire(false);
 		spec.setCanSeeFriendlyInvisibles(true);
@@ -224,7 +225,6 @@ public class Game {
 				green.addEntry(player.getName());
 				greenTeam.add(player);
 				player.setDisplayName("§a" + player.getName());
-				player.setCustomName("§a" + player.getName());
 				player.setPlayerListName("§a" + player.getName());
 				if (!gameStarted) {
 					player.setGameMode(GameMode.ADVENTURE);
@@ -258,7 +258,6 @@ public class Game {
 				red.addEntry(player.getName());
 				redTeam.add(player);
 				player.setDisplayName("§c" + player.getName());
-				player.setCustomName("§c" + player.getName());
 				player.setPlayerListName("§c" + player.getName());
 				if (!gameStarted) {
 					player.setGameMode(GameMode.ADVENTURE);
@@ -301,7 +300,6 @@ public class Game {
 		player.teleport(lobby);
 		none.addEntry(player.getName());
 		player.setDisplayName("§7" + player.getName());
-		player.setCustomName("§7" + player.getName());
 		player.setPlayerListName("§7" + player.getName());
 		player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 		player.setGameMode(GameMode.ADVENTURE);
@@ -317,7 +315,6 @@ public class Game {
 		spec.removeEntry(player.getName());
 		none.addEntry(player.getName());
 		player.setDisplayName("§7" + player.getName());
-		player.setCustomName("§7" + player.getName());
 		player.setPlayerListName("§7" + player.getName());
 		player.setGameMode(GameMode.ADVENTURE);
 		player.getInventory().clear();
@@ -379,7 +376,6 @@ public class Game {
 		player.getInventory().setArmorContents(new ItemStack[4]);
 		spec.addEntry(player.getName());
 		player.setDisplayName("§8" + player.getName());
-		player.setCustomName("§8" + player.getName());
 		player.setPlayerListName("§8" + player.getName());
 		if (teleport) {
 			player.teleport(specSpawn);

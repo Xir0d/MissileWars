@@ -34,9 +34,11 @@ public class WorldManager {
 
 	private Slot active;
 	private static final String NAME_PREFIX = "game";
+	private String mapname;
 
 	public WorldManager() {
 		this.active = Slot.A;
+		mapname = Bukkit.getBukkitVersion().contains("1.13") ? "map" : "map14";
 		init();
 	}
 
@@ -78,9 +80,9 @@ public class WorldManager {
 			Enumeration<? extends ZipEntry> entries = zip.entries();
 			while (entries.hasMoreElements()) {
 				ZipEntry entry = entries.nextElement();
-				if (entry.getName().startsWith("map/")) {
+				if (entry.getName().startsWith(mapname + "/")) {
 					File file = new File(mapFolder,
-							entry.getName().substring("map/".length(), entry.getName().length()));
+							entry.getName().substring((mapname + "/").length(), entry.getName().length()));
 					if (entry.isDirectory()) {
 						file.mkdirs();
 					} else {

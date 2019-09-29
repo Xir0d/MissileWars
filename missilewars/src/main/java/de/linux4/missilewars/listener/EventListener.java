@@ -196,7 +196,9 @@ public class EventListener implements Listener {
 
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event) {
-		event.setKeepInventory(true);
+		if (MissileWars.getMWConfig().isKeepInventory()) {
+			event.setKeepInventory(true);
+		}
 		event.getDrops().clear();
 		String deathmsg = event.getDeathMessage().replaceFirst(event.getEntity().getName(),
 				event.getEntity().getDisplayName() + "§r");

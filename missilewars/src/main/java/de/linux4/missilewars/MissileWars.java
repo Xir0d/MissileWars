@@ -54,10 +54,20 @@ public class MissileWars extends JavaPlugin {
 	private static MissileCommands commands;
 	private static WorldEditUtil worldedit;
 	private static WorldManager worldManager;
+	private static Config config;
 
 	@Override
 	public void onEnable() {
 		plugin = this;
+
+		this.saveResource("config.yml", false);
+		try {
+			config = new Config(new File(this.getDataFolder(), "config.yml"));
+		} catch (IllegalArgumentException ex) {
+			ex.printStackTrace();
+			Bukkit.getPluginManager().disablePlugin(this);
+			return;
+		}
 
 		File schematics = new File(this.getDataFolder(), "schematics/");
 		schematics.mkdirs();
@@ -201,5 +211,9 @@ public class MissileWars extends JavaPlugin {
 
 	public static WorldManager getWorldManager() {
 		return worldManager;
+	}
+
+	public static Config getMWConfig() {
+		return config;
 	}
 }

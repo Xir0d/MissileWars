@@ -212,7 +212,7 @@ public class Game {
 	}
 
 	public void greenAddPlayer(Player player) {
-		if (greenTeam.size() < 12) {
+		if (greenTeam.size() < (MissileWars.getMWConfig().getMaxPlayers() / 2)) {
 			if (nextTeam() == PlayerTeam.NONE || nextTeam() == PlayerTeam.GREEN) {
 				PlayerInventory inv = player.getInventory();
 				inv.addItem(bow);
@@ -245,7 +245,7 @@ public class Game {
 	}
 
 	public void redAddPlayer(Player player) {
-		if (redTeam.size() < 12) {
+		if (redTeam.size() < (MissileWars.getMWConfig().getMaxPlayers() / 2)) {
 			if (nextTeam() == PlayerTeam.NONE || nextTeam() == PlayerTeam.RED) {
 				PlayerInventory inv = player.getInventory();
 				inv.addItem(bow);

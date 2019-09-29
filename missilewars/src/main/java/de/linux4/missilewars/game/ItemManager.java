@@ -24,6 +24,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import de.linux4.missilewars.MissileWars;
 import de.linux4.missilewars.game.Game.PlayerTeam;
 
 public class ItemManager implements Runnable {
@@ -46,10 +47,10 @@ public class ItemManager implements Runnable {
 	public void run() {
 		final int i = random.nextInt(items.length);
 		ItemStack item = items[i];
+		int itemCap = MissileWars.getMWConfig().getItemCap() * item.getAmount();
 		for (Player player : Bukkit.getOnlinePlayers()) {
-			if (game.getPlayerTeam(player) == PlayerTeam.GREEN
-					|| game.getPlayerTeam(player) == PlayerTeam.RED) {
-				if (!player.getInventory().contains(item)) {
+			if (game.getPlayerTeam(player) == PlayerTeam.GREEN || game.getPlayerTeam(player) == PlayerTeam.RED) {
+				if (getAmount(player, item) < itemCap || MissileWars.getMWConfig().getItemCap() == 0) {
 					player.getInventory().addItem(item);
 				}
 			}
@@ -62,6 +63,17 @@ public class ItemManager implements Runnable {
 			tmp.setAmount(a);
 			player.getInventory().addItem(tmp);
 		}
+	}
+
+	private int getAmount(Player player, ItemStack item) {
+		int amount = 0;
+		for (ItemStack tmp : player.getInventory().getContents()) {
+			if (item.isSimilar(tmp)) {
+				amount = amount + tmp.getAmount();
+			}
+		}
+
+		return amount;
 	}
 
 }

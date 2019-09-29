@@ -29,43 +29,43 @@ public class MissileCommands {
 	private CommandSender console = Bukkit.getConsoleSender();
 
 	public void greenTomahawk(Player p) {
-		relativePaste("green_tomahawk", p, -0.5, -3, -4);
+		relativePaste("green_tomahawk", p, 0, -3, -4);
 	}
 
 	public void redTomahawk(Player p) {
-		relativePaste("red_tomahawk", p, -0.5, -3, 4);
+		relativePaste("red_tomahawk", p, 0, -3, 4);
 	}
 
 	public void greenShieldBuster(Player p) {
-		relativePaste("green_shieldbuster", p, -0.5, -3, -4);
+		relativePaste("green_shieldbuster", p, 0, -3, -4);
 	}
 
 	public void redShieldBuster(Player p) {
-		relativePaste("red_shieldbuster", p, -0.5, -3, 4);
+		relativePaste("red_shieldbuster", p, 0, -3, 4);
 	}
 
 	public void greenJuggernaut(Player p) {
-		relativePaste("green_juggernaut", p, -0.5, -3, -4);
+		relativePaste("green_juggernaut", p, 0, -3, -4);
 	}
 
 	public void redJuggernaut(Player p) {
-		relativePaste("red_juggernaut", p, -0.5, -3, 4);
+		relativePaste("red_juggernaut", p, 0, -3, 4);
 	}
 
 	public void greenLightning(Player p) {
-		relativePaste("green_lightning", p, -0.5, -3, -5);
+		relativePaste("green_lightning", p, 0, -3, -5);
 	}
 
 	public void redLightning(Player p) {
-		relativePaste("red_lightning", p, -0.5, -3, 5);
+		relativePaste("red_lightning", p, 0, -3, 5);
 	}
 
 	public void greenGuardian(Player p) {
-		relativePaste("green_guardian", p, -0.5, -3, -4);
+		relativePaste("green_guardian", p, 0, -3, -4);
 	}
 
 	public void redGuardian(Player p) {
-		relativePaste("red_guardian", p, -0.5, -3, 4);
+		relativePaste("red_guardian", p, 0, -3, 4);
 	}
 
 	public void redShield(Snowball snowball) {

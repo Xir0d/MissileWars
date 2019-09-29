@@ -29,11 +29,11 @@ public class MissileCommands {
 	private CommandSender console = Bukkit.getConsoleSender();
 
 	public void greenTomahawk(Player p) {
-		relativePaste("green_tomahawk", p, 0, -3, -4);
+		relativePaste("green_tomahawk", p, -0.5, -3, -4);
 	}
 
 	public void redTomahawk(Player p) {
-		relativePaste("red_tomahawk", p, 0, -3, 4);
+		relativePaste("red_tomahawk", p, -0.5, -3, 4);
 	}
 
 	public void greenShieldBuster(Player p) {
@@ -61,11 +61,11 @@ public class MissileCommands {
 	}
 
 	public void greenGuardian(Player p) {
-		relativePaste("green_guardian", p, -1, -3, -4);
+		relativePaste("green_guardian", p, -0.5, -3, -4);
 	}
 
 	public void redGuardian(Player p) {
-		relativePaste("red_guardian", p, -2, -3, 4);
+		relativePaste("red_guardian", p, -0.5, -3, 4);
 	}
 
 	public void redShield(Snowball snowball) {

@@ -10,5 +10,5 @@ NOTE: This plugin depends on WorldEdit! (please do not use FAWE or missiles will
 [Download Plugin](https://git.linux4.de/Linux4/MissileWars/releases)
   
 1. Stop your server.  
-2. Unzip the plugin and drop it into your plugin folder.  
+2. Drop the plugin into your plugin folder.  
 4. Start your server and enjoy playing Missilewars!  

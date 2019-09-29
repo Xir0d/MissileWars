@@ -7,7 +7,7 @@ This plugin supports 1.13.X-1.14.X!
   
 NOTE: This plugin depends on WorldEdit! (please do not use FAWE or missiles will not move because of disabled block physics)
 
-[Download Plugin](https://git.linux4.de/Linux4/MissileWars/releases)
+[Download Plugin](https://ci.linux4.de/job/MissileWars/lastSuccessfulBuild)
   
 1. Stop your server.  
 2. Drop the plugin into your plugin folder.  

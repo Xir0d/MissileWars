@@ -16,9 +16,14 @@
  ******************************************************************************/
 package de.linux4.missilewars.listener;
 
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -290,11 +295,20 @@ public class EventListener implements Listener {
 
 	@EventHandler
 	public void onBlockExplode(BlockExplodeEvent event) {
+
 		AnimatedExplosion.createExplosion(event.blockList());
 	}
 
 	@EventHandler
 	public void onEntityExplode(EntityExplodeEvent event) {
+		if (event.getEntity().getType() == EntityType.FIREBALL) {
+			for (Block block : event.blockList()) {
+				if (block.getType() == Material.NETHER_PORTAL) {
+					event.setCancelled(true);
+					return;
+				}
+			}
+		}
 		AnimatedExplosion.createExplosion(event.blockList());
 	}
 

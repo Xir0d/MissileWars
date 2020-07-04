@@ -23,5 +23,7 @@ keepinventory: true
 item-cap: 1
 # Resupply timer in seconds (should be > 0)
 resupply-timer: 11
-# enable fireworks on game end can cause lag for players with low end GPU.
+# enable fireworks on game end, can cause lag for players with low end GPU
 enable-fireworks: true
+# enable animated explosions, can cause a lot of lag for players with low end GPU
+enable-animated-explosions: true

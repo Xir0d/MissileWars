@@ -18,14 +18,19 @@ package de.linux4.missilewars.game;
 
 import java.util.List;
 
+import de.linux4.missilewars.MissileWars;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.util.Vector;
 
 public class AnimatedExplosion {
-	
+
 	public static void createExplosion(List<Block> blockList) {
+		if (!MissileWars.getMWConfig().enableAnimatedExplosions()) {
+			return;
+		}
+
 		for (final Block b : blockList) {
 			final Material material = b.getType();
 			if (material != Material.AIR && material != Material.TNT) {

@@ -28,6 +28,7 @@ public class Config {
 	private int itemCap;
 	private int resupplyTimer;
 	private boolean enableFireworks;
+	private boolean enableAnimatedExplosions;
 
 	public Config(File file) {
 		FileConfiguration conf = YamlConfiguration.loadConfiguration(file);
@@ -36,6 +37,7 @@ public class Config {
 		itemCap = conf.getInt("item-cap", 1);
 		resupplyTimer = conf.getInt("resupply-timer", 11);
 		enableFireworks = conf.getBoolean("enable-fireworks", true);
+		enableAnimatedExplosions = conf.getBoolean("enable-animated-explosions", true);
 
 		if (maxPlayers % 2 != 0 || maxPlayers <= 0) {
 			throw new IllegalArgumentException("max-players should be an even number > 0");
@@ -70,4 +72,7 @@ public class Config {
 		return enableFireworks;
 	}
 
+	public boolean enableAnimatedExplosions() {
+		return enableAnimatedExplosions;
+	}
 }

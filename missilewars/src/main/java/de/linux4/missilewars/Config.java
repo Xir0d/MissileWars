@@ -27,6 +27,7 @@ public class Config {
 	private boolean keepInventory;
 	private int itemCap;
 	private int resupplyTimer;
+	private boolean enableFireworks;
 
 	public Config(File file) {
 		FileConfiguration conf = YamlConfiguration.loadConfiguration(file);
@@ -34,16 +35,17 @@ public class Config {
 		keepInventory = conf.getBoolean("keepinventory", true);
 		itemCap = conf.getInt("item-cap", 1);
 		resupplyTimer = conf.getInt("resupply-timer", 11);
+		enableFireworks = conf.getBoolean("enable-fireworks", true);
 
 		if (maxPlayers % 2 != 0 || maxPlayers <= 0) {
 			throw new IllegalArgumentException("max-players should be an even number > 0");
 		}
-		
-		if(resupplyTimer == 0) {
+
+		if (resupplyTimer == 0) {
 			throw new IllegalArgumentException("resupply-timer should be > 0");
 		}
-		
-		if(itemCap < 0) {
+
+		if (itemCap < 0) {
 			throw new IllegalArgumentException("item-cap should be >= 0");
 		}
 	}
@@ -62,6 +64,10 @@ public class Config {
 
 	public int getResupplyTimer() {
 		return resupplyTimer;
+	}
+
+	public boolean enableFireworks() {
+		return enableFireworks;
 	}
 
 }

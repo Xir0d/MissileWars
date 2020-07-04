@@ -55,6 +55,7 @@ import de.linux4.missilewars.MissileWars;
 import de.linux4.missilewars.game.AnimatedExplosion;
 import de.linux4.missilewars.game.Game;
 import de.linux4.missilewars.game.Game.PlayerTeam;
+import de.linux4.missilewars.game.MissileCommands;
 import de.linux4.missilewars.game.SpawnItems;
 
 public class EventListener implements Listener {
@@ -62,11 +63,6 @@ public class EventListener implements Listener {
 	private Game game;
 	private static final String prefix = MissileWars.PREFIX;
 	private ItemStack fireball;
-	private ItemStack tomahawk;
-	private ItemStack juggernaut;
-	private ItemStack shieldBuster;
-	private ItemStack guardian;
-	private ItemStack lightning;
 	private ItemStack shield;
 	private SpawnItems spawnItems;
 	private static final MissileWars plugin = MissileWars.getPlugin();
@@ -75,11 +71,6 @@ public class EventListener implements Listener {
 		this.game = game;
 		spawnItems = new SpawnItems(game, plugin);
 		fireball = game.fireball;
-		tomahawk = game.tomahawk;
-		juggernaut = game.juggernaut;
-		shieldBuster = game.shieldBuster;
-		guardian = game.guardian;
-		lightning = game.lightning;
 		shield = game.shield;
 	}
 
@@ -120,20 +111,11 @@ public class EventListener implements Listener {
 						}
 					}
 				}
-				if (lightning.getItemMeta().getDisplayName().equalsIgnoreCase(name)) {
-					spawnItems.spawnLightning(p, l);
-					event.setCancelled(true);
-				} else if (tomahawk.getItemMeta().getDisplayName().equalsIgnoreCase(name)) {
-					spawnItems.spawnTomahawk(p, l);
-					event.setCancelled(true);
-				} else if (guardian.getItemMeta().getDisplayName().equalsIgnoreCase(name)) {
-					spawnItems.spawnGuardian(p, l);
-					event.setCancelled(true);
-				} else if (juggernaut.getItemMeta().getDisplayName().equalsIgnoreCase(name)) {
-					spawnItems.spawnJuggernaut(p, l);
-					event.setCancelled(true);
-				} else if (shieldBuster.getItemMeta().getDisplayName().equalsIgnoreCase(name)) {
-					spawnItems.spawnShieldBuster(p, l);
+
+				String strippedName = name.toLowerCase().substring(2);
+				if (MissileCommands.positions.containsKey(strippedName)) {
+					MissileCommands.spawnObject(game.getPlayerTeam(p), strippedName, l);
+					SpawnItems.removeFromInv(p);
 					event.setCancelled(true);
 				}
 			}

@@ -36,7 +36,6 @@ import de.linux4.missilewars.game.Game;
 import de.linux4.missilewars.game.GameManager;
 import de.linux4.missilewars.game.ItemManager;
 import de.linux4.missilewars.game.JoinChecker;
-import de.linux4.missilewars.game.MissileCommands;
 import de.linux4.missilewars.listener.EventListener;
 import de.linux4.missilewars.world.WorldEditUtil;
 import de.linux4.missilewars.world.WorldManager;
@@ -51,7 +50,6 @@ public class MissileWars extends JavaPlugin {
 	private int joinTaskId = 0;
 	private int gameManagerTaskId = 0;
 	private static MissileWars plugin;
-	private static MissileCommands commands;
 	private static WorldEditUtil worldedit;
 	private static WorldManager worldManager;
 	private static Config config;
@@ -100,7 +98,6 @@ public class MissileWars extends JavaPlugin {
 		}
 
 		worldedit = new WorldEditUtil(schematics);
-		commands = new MissileCommands();
 
 		game = new Game(active);
 		gameManager = new GameManager(game, this);
@@ -199,10 +196,6 @@ public class MissileWars extends JavaPlugin {
 			}
 		}
 		return true;
-	}
-
-	public static MissileCommands getMissileCommands() {
-		return commands;
 	}
 
 	public static WorldEditUtil getWorldEditUtil() {

@@ -25,8 +25,8 @@ import de.linux4.missilewars.MissileWars;
 public class Countdown implements Runnable {
 
 	private GameManager manager;
-	public double time = 60;
-	public double origTime = 60;
+	public double time = MissileWars.getMWConfig().getStartCountdown();
+	public double origTime = MissileWars.getMWConfig().getStartCountdown();
 	private static final String prefix = MissileWars.PREFIX;
 
 	public Countdown(GameManager manager) {

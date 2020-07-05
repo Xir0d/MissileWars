@@ -27,3 +27,7 @@ resupply-timer: 11
 enable-fireworks: true
 # enable animated explosions, can cause a lot of lag for players with low end GPU
 enable-animated-explosions: true
+# time before game start, after first player joins
+start-countdown: 60
+# time before game resets
+end-countdown: 30

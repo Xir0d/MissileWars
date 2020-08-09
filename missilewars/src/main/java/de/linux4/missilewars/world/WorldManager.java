@@ -48,7 +48,10 @@ public class WorldManager {
 		deleteWorldSlot(Slot.A);
 		deleteWorldSlot(Slot.B);
 		loadWorldSlot(Slot.A);
-		loadWorldSlot(Slot.B);
+
+		if (!MissileWars.getMWConfig().stopOnReset()) { // prevent wasting of RAM
+			loadWorldSlot(Slot.B);
+		}
 	}
 
 	public World getActiveWorld() {

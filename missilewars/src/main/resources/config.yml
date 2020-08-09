@@ -31,3 +31,5 @@ enable-animated-explosions: true
 start-countdown: 60
 # time before game resets
 end-countdown: 30
+# set to true for use with cloud systems like cloudnet (will stop the server on game end!)
+stop-on-reset: false

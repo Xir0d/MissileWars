@@ -31,6 +31,7 @@ public class Config {
 	private boolean enableAnimatedExplosions;
 	private int startCountdown;
 	private int endCountdown;
+	private boolean stopOnReset;
 
 	public Config(File file) {
 		FileConfiguration conf = YamlConfiguration.loadConfiguration(file);
@@ -42,6 +43,7 @@ public class Config {
 		enableAnimatedExplosions = conf.getBoolean("enable-animated-explosions", true);
 		startCountdown = conf.getInt("start-countdown", 60);
 		endCountdown = conf.getInt("end-countdown", 30);
+		stopOnReset = conf.getBoolean("stop-on-reset", false);
 
 		if (maxPlayers % 2 != 0 || maxPlayers <= 0) {
 			throw new IllegalArgumentException("max-players should be an even number > 0");
@@ -86,5 +88,9 @@ public class Config {
 
 	public int getEndCountdown() {
 		return endCountdown;
+	}
+
+	public boolean stopOnReset() {
+		return stopOnReset;
 	}
 }

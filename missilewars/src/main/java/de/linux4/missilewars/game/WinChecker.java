@@ -95,9 +95,13 @@ public class WinChecker implements Runnable {
 								green1 = null;
 								fireworkLoc = null;
 								MissileWars.getPlugin(MissileWars.class).onDisable();
+
+								if (MissileWars.getMWConfig().stopOnReset()) {
+									System.exit(0);
+								}
+
 								MissileWars.getPlugin(MissileWars.class).onEnable();
 								Bukkit.getScheduler().cancelTask(taskid);
-								// System.exit(0);
 								return;
 							}
 							countdown--;

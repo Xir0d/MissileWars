@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (C) 2019 Linux4
+ * Copyright (C) 2019-2020 Linux4
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -34,7 +34,7 @@ public class AnimatedExplosion {
 		for (final Block b : blockList) {
 			final Material material = b.getType();
 			if (material != Material.AIR && material != Material.TNT) {
-				final FallingBlock fb = b.getWorld().spawnFallingBlock(b.getLocation(), b.getBlockData());
+				final FallingBlock fb = MissileWars.getVersionAdapter().spawnFallingBlock(b.getLocation(), b);
 				b.setType(Material.AIR);
 				fb.setDropItem(false);
 				fb.setCustomName("MW-AE");

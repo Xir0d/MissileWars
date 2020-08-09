@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (C) 2019 Linux4
+ * Copyright (C) 2019-2020 Linux4
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -25,11 +25,13 @@ import org.bukkit.entity.Snowball;
 import org.bukkit.inventory.ItemStack;
 
 import de.linux4.missilewars.MissileWars;
+import de.linux4.missilewars.MissileWarsBukkit;
 
 public class SpawnItems {
 
 	private MissileWars plugin;
 	private Game game;
+	private static MissileWarsBukkit versionAdapter = MissileWars.getVersionAdapter();
 
 	public SpawnItems(Game game, MissileWars plugin) {
 		this.game = game;
@@ -38,13 +40,13 @@ public class SpawnItems {
 
 	public static void removeFromInv(Player player) {
 		if (player.getGameMode() != GameMode.CREATIVE) {
-			final ItemStack item = player.getInventory().getItemInMainHand();
+			final ItemStack item = versionAdapter.getItemInMainHand(player);
 			final int a = item.getAmount();
 			if (a <= 1) {
-				player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+				versionAdapter.setItemInMainHand(player, new ItemStack(Material.AIR));
 			} else {
 				item.setAmount(a - 1);
-				player.getInventory().setItemInMainHand(item);
+				versionAdapter.setItemInMainHand(player, item);
 			}
 		}
 	}
@@ -68,8 +70,7 @@ public class SpawnItems {
 		shield.setBounce(false);
 
 		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-			Snowball nextSnowball = (Snowball) Bukkit.getEntity(shield.getUniqueId());
-			if (nextSnowball != null && !nextSnowball.isDead() && !nextSnowball.isOnGround()) {
+			if (shield != null && !shield.isDead() && !shield.isOnGround()) {
 				MissileCommands.spawnObject(game.getPlayerTeam(player), "shield", shield.getLocation());
 			}
 		}, 20L);

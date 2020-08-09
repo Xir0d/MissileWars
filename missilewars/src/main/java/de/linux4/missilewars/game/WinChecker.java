@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (C) 2019 Linux4
+ * Copyright (C) 2019-2020 Linux4
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -52,6 +52,7 @@ public class WinChecker implements Runnable {
 			.withColor(Color.FUCHSIA).withColor(Color.RED).withTrail().with(Type.BALL_LARGE).build();
 	private static final FireworkEffect greenFirework = FireworkEffect.builder().flicker(true).trail(true)
 			.withColor(Color.LIME).withColor(Color.GREEN).withTrail().with(Type.BALL_LARGE).build();
+	private static final Material NETHER_PORTAL = MissileWars.getVersionAdapter().getNetherPortalMaterial();
 
 	public WinChecker(Game game) {
 		this.game = game;
@@ -111,8 +112,7 @@ public class WinChecker implements Runnable {
 			firework(greenFirework);
 			return;
 		}
-		if (red0.getBlock().getType() != Material.NETHER_PORTAL
-				|| red1.getBlock().getType() != Material.NETHER_PORTAL) {
+		if (red0.getBlock().getType() != NETHER_PORTAL || red1.getBlock().getType() != NETHER_PORTAL) {
 			game.gameStopped = true;
 			greenWin = true;
 			MissileCommands.spawnObject(PlayerTeam.GREEN, "win", game.getWorld());
@@ -125,8 +125,7 @@ public class WinChecker implements Runnable {
 			firework(greenFirework);
 			return;
 		}
-		if (green0.getBlock().getType() != Material.NETHER_PORTAL
-				|| green1.getBlock().getType() != Material.NETHER_PORTAL) {
+		if (green0.getBlock().getType() != NETHER_PORTAL || green1.getBlock().getType() != NETHER_PORTAL) {
 			game.gameStopped = true;
 			redWin = true;
 			MissileCommands.spawnObject(PlayerTeam.RED, "win", game.getWorld());

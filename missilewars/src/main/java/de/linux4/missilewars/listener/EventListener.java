@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (C) 2019 Linux4
+ * Copyright (C) 2019-2020 Linux4
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -24,7 +24,9 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -36,7 +38,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -52,6 +53,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import de.linux4.missilewars.MissileWars;
+import de.linux4.missilewars.MissileWarsBukkit;
 import de.linux4.missilewars.game.AnimatedExplosion;
 import de.linux4.missilewars.game.Game;
 import de.linux4.missilewars.game.Game.PlayerTeam;
@@ -65,7 +67,9 @@ public class EventListener implements Listener {
 	private ItemStack fireball;
 	private ItemStack shield;
 	private SpawnItems spawnItems;
+	private static MissileWarsBukkit versionAdapter = MissileWars.getVersionAdapter();
 	private static final MissileWars plugin = MissileWars.getPlugin();
+	private static final Material NETHER_PORTAL = versionAdapter.getNetherPortalMaterial();
 
 	public EventListener(Game game) {
 		this.game = game;
@@ -89,7 +93,7 @@ public class EventListener implements Listener {
 		final Player p = event.getPlayer();
 		final Action action = event.getAction();
 		if (action == Action.RIGHT_CLICK_BLOCK || action == Action.RIGHT_CLICK_AIR) {
-			final ItemStack item = p.getInventory().getItemInMainHand();
+			final ItemStack item = versionAdapter.getItemInMainHand(p);
 			String name = item != null && item.getItemMeta() != null ? item.getItemMeta().getDisplayName() : "";
 
 			if (fireball.getItemMeta().getDisplayName().equalsIgnoreCase(name)) {
@@ -123,7 +127,7 @@ public class EventListener implements Listener {
 					}
 				}
 
-				if (name.length() > 2) {
+				if (name != null && name.length() > 2) {
 					String strippedName = name.toLowerCase().substring(2);
 					if (MissileCommands.positions.containsKey(strippedName)) {
 						MissileCommands.spawnObject(game.getPlayerTeam(p), strippedName, l);
@@ -248,7 +252,7 @@ public class EventListener implements Listener {
 
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) {
-		if (event.getBlock().getType() == Material.NETHER_PORTAL || event.getBlock().getType() == Material.OBSIDIAN) {
+		if (event.getBlock().getType() == NETHER_PORTAL || event.getBlock().getType() == Material.OBSIDIAN) {
 			event.setCancelled(true);
 		}
 	}
@@ -264,26 +268,19 @@ public class EventListener implements Listener {
 		}
 	}
 
-	@EventHandler
-	public void onItemPickup(EntityPickupItemEvent event) {
-		if (event.getEntity() instanceof Player) {
-			final Player p = (Player) event.getEntity();
-			if (game.getPlayerTeam(p) == PlayerTeam.SPEC && p.getGameMode() != GameMode.CREATIVE) {
-				event.setCancelled(true);
-			} else if (event.getItem().getItemStack().getType() == Material.ARROW) {
-				event.getItem().setCustomName("§eArrow");
-				ItemMeta meta = event.getItem().getItemStack().getItemMeta();
-				meta.setDisplayName("§eArrow");
-				event.getItem().getItemStack().setItemMeta(meta);
-			}
-		} else {
+	public void onItemPickup(Cancellable event, Player p, Item item) {
+		if (game.getPlayerTeam(p) == PlayerTeam.SPEC && p.getGameMode() != GameMode.CREATIVE) {
 			event.setCancelled(true);
+		} else if (item.getItemStack().getType() == Material.ARROW) {
+			item.setCustomName("§eArrow");
+			ItemMeta meta = item.getItemStack().getItemMeta();
+			meta.setDisplayName("§eArrow");
+			item.getItemStack().setItemMeta(meta);
 		}
 	}
 
 	@EventHandler
 	public void onBlockExplode(BlockExplodeEvent event) {
-
 		AnimatedExplosion.createExplosion(event.blockList());
 	}
 
@@ -291,7 +288,7 @@ public class EventListener implements Listener {
 	public void onEntityExplode(EntityExplodeEvent event) {
 		if (event.getEntity().getType() == EntityType.FIREBALL) {
 			for (Block block : event.blockList()) {
-				if (block.getType() == Material.NETHER_PORTAL) {
+				if (block.getType() == NETHER_PORTAL) {
 					event.setCancelled(true);
 					return;
 				}

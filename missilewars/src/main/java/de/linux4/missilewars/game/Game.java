@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (C) 2019 Linux4
+ * Copyright (C) 2019-2020 Linux4
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -26,8 +26,8 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -35,10 +35,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
-import org.bukkit.scoreboard.Team.Option;
-import org.bukkit.scoreboard.Team.OptionStatus;
 
 import de.linux4.missilewars.MissileWars;
+import de.linux4.missilewars.MissileWarsBukkit;
+import de.linux4.missilewars.NameTagVisibility;
 
 public class Game {
 
@@ -79,6 +79,7 @@ public class Game {
 	public ItemStack lightning;
 	public ItemStack shield;
 	private static Game instance;
+	private static MissileWarsBukkit versionAdapter = MissileWars.getVersionAdapter();
 	private World world;
 
 	public Game(World world) {
@@ -86,20 +87,20 @@ public class Game {
 		this.world = world;
 		board = Bukkit.getScoreboardManager().getNewScoreboard();
 		green = board.registerNewTeam("green");
-		green.setColor(ChatColor.GREEN);
-		green.setOption(Option.NAME_TAG_VISIBILITY, OptionStatus.ALWAYS);
+		versionAdapter.setTeamColor(green, ChatColor.GREEN);
+		versionAdapter.setNameTagVisibility(green, NameTagVisibility.ALWAYS);
 		green.setAllowFriendlyFire(false);
 		red = board.registerNewTeam("red");
-		red.setColor(ChatColor.RED);
-		red.setOption(Option.NAME_TAG_VISIBILITY, OptionStatus.ALWAYS);
+		versionAdapter.setTeamColor(red, ChatColor.RED);
+		versionAdapter.setNameTagVisibility(red, NameTagVisibility.ALWAYS);
 		red.setAllowFriendlyFire(false);
 		none = board.registerNewTeam("none");
-		none.setColor(ChatColor.GRAY);
-		none.setOption(Option.NAME_TAG_VISIBILITY, OptionStatus.ALWAYS);
+		versionAdapter.setTeamColor(none, ChatColor.GRAY);
+		versionAdapter.setNameTagVisibility(none, NameTagVisibility.ALWAYS);
 		none.setAllowFriendlyFire(false);
 		spec = board.registerNewTeam("spec");
-		spec.setColor(ChatColor.DARK_GRAY);
-		spec.setOption(Option.NAME_TAG_VISIBILITY, OptionStatus.FOR_OWN_TEAM);
+		versionAdapter.setTeamColor(spec, ChatColor.DARK_GRAY);
+		versionAdapter.setNameTagVisibility(spec, NameTagVisibility.HIDE_FOR_OTHER_TEAMS);
 		spec.setAllowFriendlyFire(false);
 		spec.setCanSeeFriendlyInvisibles(true);
 		greenJoin.add(new Location(world, -117, 66, 6));
@@ -119,77 +120,77 @@ public class Game {
 		greenHelmet = new ItemStack(Material.LEATHER_HELMET);
 		LeatherArmorMeta greenHelmetMeta = (LeatherArmorMeta) greenHelmet.getItemMeta();
 		greenHelmetMeta.setColor(Color.LIME);
-		greenHelmetMeta.setUnbreakable(true);
+		versionAdapter.setUnbreakable(greenHelmetMeta, true);
 		greenHelmet.setItemMeta(greenHelmetMeta);
 		greenChestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
 		LeatherArmorMeta greenChestplateMeta = (LeatherArmorMeta) greenChestplate.getItemMeta();
 		greenChestplateMeta.setColor(Color.LIME);
-		greenChestplateMeta.setUnbreakable(true);
+		versionAdapter.setUnbreakable(greenChestplateMeta, true);
 		greenChestplate.setItemMeta(greenChestplateMeta);
 		greenLeggings = new ItemStack(Material.LEATHER_LEGGINGS);
 		LeatherArmorMeta greenLeggingsMeta = (LeatherArmorMeta) greenLeggings.getItemMeta();
 		greenLeggingsMeta.setColor(Color.LIME);
-		greenLeggingsMeta.setUnbreakable(true);
+		versionAdapter.setUnbreakable(greenLeggingsMeta, true);
 		greenLeggings.setItemMeta(greenLeggingsMeta);
 		greenBoots = new ItemStack(Material.LEATHER_BOOTS);
 		LeatherArmorMeta greenBootsMeta = (LeatherArmorMeta) greenBoots.getItemMeta();
 		greenBootsMeta.setColor(Color.LIME);
-		greenBootsMeta.setUnbreakable(true);
+		versionAdapter.setUnbreakable(greenBootsMeta, true);
 		greenBoots.setItemMeta(greenBootsMeta);
 		redHelmet = new ItemStack(Material.LEATHER_HELMET);
 		LeatherArmorMeta redHelmetMeta = (LeatherArmorMeta) redHelmet.getItemMeta();
 		redHelmetMeta.setColor(Color.RED);
-		redHelmetMeta.setUnbreakable(true);
+		versionAdapter.setUnbreakable(redHelmetMeta, true);
 		redHelmet.setItemMeta(redHelmetMeta);
 		redChestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
 		LeatherArmorMeta redChestplateMeta = (LeatherArmorMeta) redChestplate.getItemMeta();
 		redChestplateMeta.setColor(Color.RED);
-		redChestplateMeta.setUnbreakable(true);
+		versionAdapter.setUnbreakable(redChestplateMeta, true);
 		redChestplate.setItemMeta(redChestplateMeta);
 		redLeggings = new ItemStack(Material.LEATHER_LEGGINGS);
 		LeatherArmorMeta redLeggingsMeta = (LeatherArmorMeta) redLeggings.getItemMeta();
 		redLeggingsMeta.setColor(Color.RED);
-		redLeggingsMeta.setUnbreakable(true);
+		versionAdapter.setUnbreakable(redLeggingsMeta, true);
 		redLeggings.setItemMeta(redLeggingsMeta);
 		redBoots = new ItemStack(Material.LEATHER_BOOTS);
 		LeatherArmorMeta redBootsMeta = (LeatherArmorMeta) redBoots.getItemMeta();
 		redBootsMeta.setColor(Color.RED);
-		redBootsMeta.setUnbreakable(true);
+		versionAdapter.setUnbreakable(redBootsMeta, true);
 		redBoots.setItemMeta(redBootsMeta);
 		bow = new ItemStack(Material.BOW);
 		ItemMeta bowMeta = bow.getItemMeta();
 		bowMeta.setDisplayName("§cBow");
-		bowMeta.setUnbreakable(true);
+		versionAdapter.setUnbreakable(bowMeta, true);
 		bow.setItemMeta(bowMeta);
 		bow.addUnsafeEnchantment(Enchantment.ARROW_FIRE, 1);
 		bow.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 4);
 		bow.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
 		// items
-		fireball = new ItemStack(Material.FIRE_CHARGE, 1);
+		fireball = new ItemStack(versionAdapter.getFireChargeMaterial(), 1);
 		ItemMeta fireballMeta = fireball.getItemMeta();
 		fireballMeta.setDisplayName("§6Fireball");
 		fireball.setItemMeta(fireballMeta);
-		tomahawk = new ItemStack(Material.CREEPER_SPAWN_EGG, 1);
+		tomahawk = MissileWars.getVersionAdapter().newSpawnEgg(EntityType.CREEPER);
 		ItemMeta tomahawkMeta = tomahawk.getItemMeta();
 		tomahawkMeta.setDisplayName("§2Tomahawk");
 		tomahawk.setItemMeta(tomahawkMeta);
-		juggernaut = new ItemStack(Material.SHEEP_SPAWN_EGG, 1);
+		juggernaut = MissileWars.getVersionAdapter().newSpawnEgg(EntityType.SHEEP);
 		ItemMeta juggernautMeta = juggernaut.getItemMeta();
 		juggernautMeta.setDisplayName("§aJuggernaut");
 		juggernaut.setItemMeta(juggernautMeta);
-		shieldBuster = new ItemStack(Material.WITCH_SPAWN_EGG, 1);
+		shieldBuster = MissileWars.getVersionAdapter().newSpawnEgg(EntityType.WITCH);
 		ItemMeta shieldBusterMeta = shieldBuster.getItemMeta();
 		shieldBusterMeta.setDisplayName("§4Shieldbuster");
 		shieldBuster.setItemMeta(shieldBusterMeta);
-		guardian = new ItemStack(Material.GUARDIAN_SPAWN_EGG, 1);
+		guardian = MissileWars.getVersionAdapter().newSpawnEgg(EntityType.GUARDIAN);
 		ItemMeta guardianMeta = guardian.getItemMeta();
 		guardianMeta.setDisplayName("§aGuardian");
 		guardian.setItemMeta(guardianMeta);
-		lightning = new ItemStack(Material.OCELOT_SPAWN_EGG, 1);
+		lightning = MissileWars.getVersionAdapter().newSpawnEgg(EntityType.OCELOT);
 		ItemMeta lightningMeta = lightning.getItemMeta();
 		lightningMeta.setDisplayName("§bLightning");
 		lightning.setItemMeta(lightningMeta);
-		shield = new ItemStack(Material.SNOWBALL, 1);
+		shield = new ItemStack(MissileWars.getVersionAdapter().getSnowBallMaterial(), 1);
 		ItemMeta shieldMeta = shield.getItemMeta();
 		shieldMeta.setDisplayName("§1Shield");
 		shield.setItemMeta(shieldMeta);
@@ -301,7 +302,7 @@ public class Game {
 		none.addEntry(player.getName());
 		player.setDisplayName("§7" + player.getName());
 		player.setPlayerListName("§7" + player.getName());
-		player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+		player.setHealth(player.getMaxHealth());
 		player.setGameMode(GameMode.ADVENTURE);
 		player.getInventory().clear();
 		player.getInventory().setArmorContents(new ItemStack[4]);
@@ -371,7 +372,7 @@ public class Game {
 
 	public void spectate(Player player, boolean teleport) {
 		removeAllTeams(player);
-		player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+		player.setHealth(player.getMaxHealth());
 		player.getInventory().clear();
 		player.getInventory().setArmorContents(new ItemStack[4]);
 		spec.addEntry(player.getName());

@@ -1,19 +1,12 @@
-<!--
-  Copyright (C) 2019 Linux4
-  
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU Affero General Public License as published
-  by the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-  
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU Affero General Public License for more details.
-  
-  You should have received a copy of the GNU Affero General Public License
-  along with this program. If not, see <http://www.gnu.org/licenses/>.
--->
+<!-- Copyright (C) 2019-2020 Linux4 This program is free software: you can 
+	redistribute it and/or modify it under the terms of the GNU Affero General 
+	Public License as published by the Free Software Foundation, either version 
+	3 of the License, or (at your option) any later version. This program is 
+	distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+	without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+	PURPOSE. See the GNU Affero General Public License for more details. You 
+	should have received a copy of the GNU Affero General Public License along 
+	with this program. If not, see <http://www.gnu.org/licenses/>. -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -26,25 +19,48 @@
 	<artifactId>missilewars</artifactId>
 	<name>MissileWars</name>
 
-	<repositories>
-		<repository>
-			<id>enginehub-maven</id>
-			<url>http://maven.enginehub.org/repo/</url>
-		</repository>
-	</repositories>
-
 	<dependencies>
+		<dependency>
+			<groupId>de.linux4.missilewars</groupId>
+			<artifactId>missilewars-version</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>de.linux4.missilewars</groupId>
+			<artifactId>missilewars-1-8</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>de.linux4.missilewars</groupId>
+			<artifactId>missilewars-1-10</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>de.linux4.missilewars</groupId>
+			<artifactId>missilewars-1-11</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>de.linux4.missilewars</groupId>
+			<artifactId>missilewars-1-12</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>de.linux4.missilewars</groupId>
+			<artifactId>missilewars-1-13</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
-			<version>1.14.4-R0.1-SNAPSHOT</version>
+			<version>1.8.8-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
- 			<groupId>com.sk89q.worldedit</groupId>
-  			<artifactId>worldedit-bukkit</artifactId>
-  			<version>7.1.0-SNAPSHOT</version>
-  			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>

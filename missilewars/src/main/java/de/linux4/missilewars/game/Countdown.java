@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (C) 2019 Linux4
+ * Copyright (C) 2019-2020 Linux4
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -29,6 +29,8 @@ public class Countdown implements Runnable {
 	public double origTime = MissileWars.getMWConfig().getStartCountdown();
 	private static final String prefix = MissileWars.PREFIX;
 
+	private static final Sound ENTITY_PLAYER_LEVELUP = MissileWars.getVersionAdapter().getLevelUpSound();
+
 	public Countdown(GameManager manager) {
 		this.manager = manager;
 	}
@@ -42,15 +44,15 @@ public class Countdown implements Runnable {
 				if (time == 60 || time == 45 || time == 30 || time == 15 || time == 10 || time == 5 || time == 4
 						|| time == 3 || time == 2) {
 					player.sendMessage(prefix + "§aStarting in §6" + (int) time + "§a seconds!");
-					player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+					player.playSound(player.getLocation(), ENTITY_PLAYER_LEVELUP, 1, 1);
 				} else if (time == 1) {
 					player.sendMessage(prefix + "§aStarting in §6" + (int) time + "§a second!");
-					player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+					player.playSound(player.getLocation(), ENTITY_PLAYER_LEVELUP, 1, 1);
 				} else if (time == 0) {
 					if (!manager.countdownFinished) {
 						player.setExp(0);
 						player.sendMessage(prefix + "§aStarting §6now!");
-						player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+						player.playSound(player.getLocation(), ENTITY_PLAYER_LEVELUP, 1, 1);
 						manager.setCountdownFinished(true);
 					}
 				}

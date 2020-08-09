@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (C) 2019 Linux4
+ * Copyright (C) 2019-2020 Linux4
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -30,6 +30,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 
+import de.linux4.missilewars.MissileWars;
+
 public class WorldManager {
 
 	private Slot active;
@@ -38,7 +40,7 @@ public class WorldManager {
 
 	public WorldManager() {
 		this.active = Slot.A;
-		mapname = Bukkit.getBukkitVersion().contains("1.13") ? "map" : "map14";
+		mapname = MissileWars.getVersionAdapter().getMapName();
 		init();
 	}
 
@@ -98,6 +100,7 @@ public class WorldManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 		WorldCreator wc = new WorldCreator(NAME_PREFIX + slot);
 		wc.environment(World.Environment.NORMAL);
 		Bukkit.getServer().createWorld(wc);

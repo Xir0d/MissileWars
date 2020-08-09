@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (C) 2019 Linux4
+ * Copyright (C) 2019-2020 Linux4
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -28,7 +28,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -37,6 +39,15 @@ import de.linux4.missilewars.game.GameManager;
 import de.linux4.missilewars.game.ItemManager;
 import de.linux4.missilewars.game.JoinChecker;
 import de.linux4.missilewars.listener.EventListener;
+import de.linux4.missilewars.listener.ItemPickupListener;
+import de.linux4.missilewars.v110.MissileWarsBukkit110;
+import de.linux4.missilewars.v111.listener.ItemPickupListener111;
+import de.linux4.missilewars.v112.MissileWarsBukkit112;
+import de.linux4.missilewars.v112.listener.ItemPickupListener112;
+import de.linux4.missilewars.v112.world.WorldEditUtil112;
+import de.linux4.missilewars.v113.MissileWarsBukkit113;
+import de.linux4.missilewars.v113.world.WorldEditUtil113;
+import de.linux4.missilewars.v18.MissileWarsBukkit18;
 import de.linux4.missilewars.world.WorldEditUtil;
 import de.linux4.missilewars.world.WorldManager;
 
@@ -50,22 +61,15 @@ public class MissileWars extends JavaPlugin {
 	private int joinTaskId = 0;
 	private int gameManagerTaskId = 0;
 	private static MissileWars plugin;
-	private static WorldEditUtil worldedit;
 	private static WorldManager worldManager;
 	private static Config config;
+
+	private static WorldEditUtil worldedit;
+	private static MissileWarsBukkit versionAdapter;
 
 	@Override
 	public void onEnable() {
 		plugin = this;
-
-		this.saveResource("config.yml", false);
-		try {
-			config = new Config(new File(this.getDataFolder(), "config.yml"));
-		} catch (IllegalArgumentException ex) {
-			ex.printStackTrace();
-			Bukkit.getPluginManager().disablePlugin(this);
-			return;
-		}
 
 		File schematics = new File(this.getDataFolder(), "schematics/");
 		schematics.mkdirs();
@@ -89,6 +93,44 @@ public class MissileWars extends JavaPlugin {
 			e.printStackTrace();
 		}
 
+		// initialize version specific components
+		switch (BukkitVersion.detect()) {
+		case V1_8:
+			versionAdapter = new MissileWarsBukkit18();
+			worldedit = new WorldEditUtil112(schematics);
+			break;
+		case V1_9:
+		case V1_10:
+			versionAdapter = new MissileWarsBukkit110();
+			worldedit = new WorldEditUtil112(schematics);
+			break;
+		case V1_11:
+		case V1_12:
+			versionAdapter = new MissileWarsBukkit112();
+			worldedit = new WorldEditUtil112(schematics);
+			break;
+		case V1_13:
+		case V1_14:
+		case V1_15:
+		case V1_16:
+		default:
+			versionAdapter = new MissileWarsBukkit113();
+			worldedit = new WorldEditUtil113(schematics);
+			break;
+		}
+
+		System.out.println("Using " + versionAdapter.getClass().getCanonicalName() + " as version specific adapter");
+		System.out.println("Using " + worldedit.getClass().getCanonicalName() + " as worldedit adapter");
+
+		this.saveResource("config.yml", false);
+		try {
+			config = new Config(new File(this.getDataFolder(), "config.yml"));
+		} catch (IllegalArgumentException ex) {
+			ex.printStackTrace();
+			Bukkit.getPluginManager().disablePlugin(this);
+			return;
+		}
+
 		World active;
 		if (worldManager == null) {
 			worldManager = new WorldManager();
@@ -97,13 +139,43 @@ public class MissileWars extends JavaPlugin {
 			active = worldManager.getInactiveWorld();
 		}
 
-		worldedit = new WorldEditUtil(schematics);
-
 		game = new Game(active);
 		gameManager = new GameManager(game, this);
 		joinTaskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new JoinChecker(game), 0L, 5L);
 		gameManagerTaskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(this, gameManager, 0L, 5L);
-		Bukkit.getPluginManager().registerEvents(new EventListener(game), this);
+		EventListener listener = new EventListener(game);
+		Bukkit.getPluginManager().registerEvents(listener, this);
+
+		// register version specific events
+
+		ItemPickupListener itemPickupListener = null;
+
+		switch (BukkitVersion.detect()) {
+		case V1_8:
+		case V1_9:
+		case V1_10:
+		case V1_11:
+			itemPickupListener = new ItemPickupListener111();
+			break;
+		case V1_12:
+		case V1_13:
+		case V1_14:
+		case V1_15:
+		case V1_16:
+		default:
+			itemPickupListener = new ItemPickupListener112();
+			break;
+		}
+
+		Bukkit.getPluginManager().registerEvents(itemPickupListener, this);
+		itemPickupListener.setCallback(new ItemPickupListener.PickupCallback() {
+
+			@Override
+			public void eventCalled(Cancellable event, Player player, Item item) {
+				listener.onItemPickup(event, player, item);
+			}
+
+		});
 
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
 			active.setTime(1000);
@@ -208,5 +280,9 @@ public class MissileWars extends JavaPlugin {
 
 	public static Config getMWConfig() {
 		return config;
+	}
+
+	public static MissileWarsBukkit getVersionAdapter() {
+		return versionAdapter;
 	}
 }

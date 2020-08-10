@@ -5,8 +5,6 @@ This plugin supports 1.8.X-1.16.X!
   
 ## Installation  
   
-NOTE: This plugin depends on WorldEdit! (please do not use FAWE or missiles will not move because of disabled block physics)
-
 [Download Plugin](https://ci.linux4.de/job/MissileWars/lastSuccessfulBuild)
   
 1. Stop your server.  

@@ -128,4 +128,9 @@ public class MissileWarsBukkit113 implements MissileWarsBukkit {
 		team.setOption(Option.NAME_TAG_VISIBILITY, status);
 	}
 
+	@Override
+	public void cloneBlockData(Block source, Block target) {
+		target.setBlockData(source.getBlockData());
+	}
+
 }

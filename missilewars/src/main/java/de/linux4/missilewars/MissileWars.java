@@ -17,13 +17,7 @@
 package de.linux4.missilewars;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.util.Enumeration;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
-import org.apache.commons.io.IOUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -44,11 +38,8 @@ import de.linux4.missilewars.v110.MissileWarsBukkit110;
 import de.linux4.missilewars.v111.listener.ItemPickupListener111;
 import de.linux4.missilewars.v112.MissileWarsBukkit112;
 import de.linux4.missilewars.v112.listener.ItemPickupListener112;
-import de.linux4.missilewars.v112.world.WorldEditUtil112;
 import de.linux4.missilewars.v113.MissileWarsBukkit113;
-import de.linux4.missilewars.v113.world.WorldEditUtil113;
 import de.linux4.missilewars.v18.MissileWarsBukkit18;
-import de.linux4.missilewars.world.WorldEditUtil;
 import de.linux4.missilewars.world.WorldManager;
 
 public class MissileWars extends JavaPlugin {
@@ -64,50 +55,24 @@ public class MissileWars extends JavaPlugin {
 	private static WorldManager worldManager;
 	private static Config config;
 
-	private static WorldEditUtil worldedit;
 	private static MissileWarsBukkit versionAdapter;
 
 	@Override
 	public void onEnable() {
 		plugin = this;
 
-		File schematics = new File(this.getDataFolder(), "schematics/");
-		schematics.mkdirs();
-		try {
-			ZipFile zip = new ZipFile(
-					new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath()));
-			Enumeration<? extends ZipEntry> entries = zip.entries();
-			while (entries.hasMoreElements()) {
-				ZipEntry entry = entries.nextElement();
-				if (!entry.isDirectory() && entry.getName().startsWith("schematics/")) {
-					File schematic = new File(this.getDataFolder(), entry.getName());
-					InputStream in = zip.getInputStream(entry);
-					FileOutputStream out = new FileOutputStream(schematic);
-					IOUtils.copy(in, out);
-					in.close();
-					out.close();
-				}
-			}
-			zip.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 		// initialize version specific components
 		switch (BukkitVersion.detect()) {
 		case V1_8:
 			versionAdapter = new MissileWarsBukkit18();
-			worldedit = new WorldEditUtil112(schematics);
 			break;
 		case V1_9:
 		case V1_10:
 			versionAdapter = new MissileWarsBukkit110();
-			worldedit = new WorldEditUtil112(schematics);
 			break;
 		case V1_11:
 		case V1_12:
 			versionAdapter = new MissileWarsBukkit112();
-			worldedit = new WorldEditUtil112(schematics);
 			break;
 		case V1_13:
 		case V1_14:
@@ -115,12 +80,10 @@ public class MissileWars extends JavaPlugin {
 		case V1_16:
 		default:
 			versionAdapter = new MissileWarsBukkit113();
-			worldedit = new WorldEditUtil113(schematics);
 			break;
 		}
 
 		System.out.println("Using " + versionAdapter.getClass().getCanonicalName() + " as version specific adapter");
-		System.out.println("Using " + worldedit.getClass().getCanonicalName() + " as worldedit adapter");
 
 		this.saveResource("config.yml", false);
 		try {
@@ -268,10 +231,6 @@ public class MissileWars extends JavaPlugin {
 			}
 		}
 		return true;
-	}
-
-	public static WorldEditUtil getWorldEditUtil() {
-		return worldedit;
 	}
 
 	public static WorldManager getWorldManager() {

@@ -33,6 +33,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
+import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -299,6 +300,13 @@ public class EventListener implements Listener {
 
 	@EventHandler
 	public void onBlockPhysics(BlockPhysicsEvent event) {
+		if (!game.gameStarted) {
+			event.setCancelled(true);
+		}
+	}
+
+	@EventHandler
+	public void onPistonExtend(BlockPistonExtendEvent event) {
 		if (!game.gameStarted) {
 			event.setCancelled(true);
 		}

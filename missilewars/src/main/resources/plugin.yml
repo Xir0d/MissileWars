@@ -19,7 +19,6 @@ name: ${project.name}
 author: ${project.author}
 version: ${project.version}
 main: de.linux4.missilewars.MissileWars
-depend: [WorldEdit]
 commands:
    start:
        description: Instant start.

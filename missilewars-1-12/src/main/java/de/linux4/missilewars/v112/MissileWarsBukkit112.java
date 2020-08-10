@@ -70,4 +70,10 @@ public class MissileWarsBukkit112 extends MissileWarsBukkit113 {
 		team.setPrefix("§" + color.getChar());
 	}
 
+	@SuppressWarnings("deprecation")
+	@Override
+	public void cloneBlockData(Block source, Block target) {
+		target.setData(source.getData());
+	}
+
 }

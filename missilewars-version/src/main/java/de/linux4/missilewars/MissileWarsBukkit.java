@@ -53,5 +53,7 @@ public interface MissileWarsBukkit {
 	public Sound getLevelUpSound();
 
 	public void setNameTagVisibility(Team team, NameTagVisibility visibility);
+	
+	public void cloneBlockData(Block source, Block target);
 
 }

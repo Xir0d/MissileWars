@@ -19,6 +19,7 @@ package de.linux4.missilewars.v112.listener;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.player.PlayerPickupArrowEvent;
 
 import de.linux4.missilewars.listener.ItemPickupListener;
 
@@ -28,6 +29,14 @@ public class ItemPickupListener112 extends ItemPickupListener {
 	public void onItemPickup(EntityPickupItemEvent event) {
 		if (event.getEntity() instanceof Player && this.callback != null) {
 			this.callback.eventCalled(event, (Player) event.getEntity(), event.getItem());
+		}
+	}
+
+	@SuppressWarnings("deprecation")
+	@EventHandler
+	public void onArrowPickup(PlayerPickupArrowEvent event) { // on < 1.12 this is handled by item pickup event
+		if (this.callback != null) {
+			this.callback.eventCalled(event, event.getPlayer(), event.getItem());
 		}
 	}
 

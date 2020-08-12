@@ -50,7 +50,8 @@ public class ItemManager implements Runnable {
 		int itemCap = MissileWars.getMWConfig().getItemCap() * item.getAmount();
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			if (game.getPlayerTeam(player) == PlayerTeam.GREEN || game.getPlayerTeam(player) == PlayerTeam.RED) {
-				if (getAmount(player, item) < itemCap || MissileWars.getMWConfig().getItemCap() == 0) {
+				if (getAmount(player, item) + item.getAmount() <= itemCap
+						|| MissileWars.getMWConfig().getItemCap() == 0) {
 					player.getInventory().addItem(item);
 				}
 			}
@@ -68,8 +69,9 @@ public class ItemManager implements Runnable {
 	private int getAmount(Player player, ItemStack item) {
 		int amount = 0;
 		for (ItemStack tmp : player.getInventory().getContents()) {
-			if (item.isSimilar(tmp)) {
-				amount = amount + tmp.getAmount();
+			if (tmp != null && tmp.getItemMeta() != null
+					&& item.getItemMeta().getDisplayName().equalsIgnoreCase(tmp.getItemMeta().getDisplayName())) {
+				amount += tmp.getAmount();
 			}
 		}
 

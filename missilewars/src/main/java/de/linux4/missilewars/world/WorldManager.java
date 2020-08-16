@@ -106,7 +106,14 @@ public class WorldManager {
 
 		WorldCreator wc = new WorldCreator(NAME_PREFIX + slot);
 		wc.environment(World.Environment.NORMAL);
-		Bukkit.getServer().createWorld(wc);
+		World world = Bukkit.getServer().createWorld(wc);
+
+		if (world != null) {
+			world.setGameRuleValue("doDaylightCycle", "false");
+			world.setGameRuleValue("doWeatherCycle", "false");
+			world.setGameRuleValue("doMobSpawning", "false");
+			world.setGameRuleValue("announceAdvancements", "false");
+		}
 	}
 
 	public Slot getActiveSlot() {

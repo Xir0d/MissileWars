@@ -51,7 +51,11 @@ public class MWStructureUtil {
 
 						MissileWars.getVersionAdapter().cloneBlockData(sourceBlock, targetBlock);
 
-						targetBlock.getState().setData(sourceBlock.getState().getData());
+						try {
+							targetBlock.getState().setData(sourceBlock.getState().getData());
+						} catch (IllegalArgumentException ex) {
+							// ignored
+						}
 					} else if (targetBlock.getType() == Material.AIR) {
 						targetBlock.setType(Material.STONE); // TODO: dirty fix
 						targetBlock.setType(Material.AIR);

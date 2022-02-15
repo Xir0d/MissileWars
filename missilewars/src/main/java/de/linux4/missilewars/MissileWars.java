@@ -213,7 +213,7 @@ public class MissileWars extends JavaPlugin {
 						|| p.getScoreboard().getTeam("spec").hasEntry(p.getName())) {
 					game.returnToLobby(p);
 				} else {
-					p.sendMessage(PREFIX + "§cYou are not ingame!");
+					p.sendMessage(PREFIX + "§cVous n'êtes pas en jeux!");
 				}
 			} else {
 				sender.sendMessage(NO_CONSOLE_CMD);
